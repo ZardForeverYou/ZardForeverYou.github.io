@@ -13,7 +13,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
   <title>
     
-      title | Zardforever
+      数据库 | Zardforever
     
   </title>
   <meta name="author" content="Zard">
@@ -164,7 +164,7 @@
 	<!-- Page title -->
 	<p>
 		
-			当前文章&nbsp;:&nbsp;《title》
+			当前文章&nbsp;:&nbsp;《数据库》
 		
 	</p>
 
@@ -274,7 +274,7 @@
 		<i class="fa fa-paper-plane-o" aria-hidden="true"></i>
 		
 	<a href="/2019/07/23/初步接触数据库/" itemprop="url">
-		title
+		数据库
 	</a>
 
 	</div>
@@ -288,7 +288,7 @@
 	发布于
 
 	<a href="/2019/07/23/初步接触数据库/" itemprop="url">
-		<time datetime="2019-07-23T12:32:04.544Z" itemprop="datePublished">
+		<time datetime="2019-07-22T16:00:00.000Z" itemprop="datePublished">
 	  		2019-07-23
 	  </time>
 	</a>
@@ -306,7 +306,7 @@
 	更新于
 
 	<a href="/2019/07/23/初步接触数据库/" itemprop="url">
-		<time datetime="2019-07-23T12:32:04.544Z" itemprop="dateUpdated">
+		<time datetime="2019-07-22T16:00:00.000Z" itemprop="dateUpdated">
 	  		2019-07-23
 	  </time>
 	</a> 
@@ -332,10 +332,44 @@
 	</div>
 
 	<div class="article-content" id="article-content">
-			
+		<p>#数据库<br>数据的仓库 - 数据持久化<br>将数据从内存转移到能够长久保存数据的存储介质（硬盘）</p>
+<p>关系型数据库 / 非关系型数据库（NoSQL）</p>
+<ol>
+<li>理论基础：关系代数+集合论</li>
+<li>具体表象：用二维表保存数据<br>~ 行 - 一条记录<br>~ 列 - 一个字段</li>
+<li>自己的编程语言 - SQL - 结构化查询语言<br>~ DDL - 数据定义语言 - create / drop / alter<br>~ DML - 数据操作语言 - insert / delete / update / select<br>~ DCL - 数据控制语言 - grant(授予权限..to..) / revoke(收回权限..from..)</li>
+</ol>
+<p>如果表中的某个列能够唯一的确定一条记录,那么这个列可以设置为主键列<br>(primary key )</p>
+<p>Oracle / MySQL / PostgreSQL<br>MongoDB / Redis / ElasticSearch</p>
+<p>骆昊 2019/7/22 17:05:52<br>rpm -ivh mysql-community-….</p>
+<p>systemctl start mysqld</p>
+<p>netstat -ntlp</p>
+<p>mysql -u root -h 1.2.3.4 -p</p>
+<p>– 创建数据库<br>create database school default charset utf8;</p>
+<p>– 删除数据库<br>drop database school;</p>
+<p>– 切换数据库<br>use school;</p>
+<p>– 创建表<br>create table tb_student<br>(<br>stuid int not null,<br>stuname varchar(15) not null,<br>sex boolean not null default 1,<br>birth date,<br>primary key (stuid)<br>);</p>
+<p>– 删除表<br>drop table tb_student;</p>
+<p>– 修改表<br>alter table tb_student add column …;<br>alter table tb_student drop column …;<br>alter table tb_student change column …;<br>alter table tb_student modify column …;</p>
+<p>– 查看所有的表<br>show tables;</p>
+<p>– 查看建表语句<br>show create table tb_student;</p>
+<p>– 显示表结构<br>desc tb_student;</p>
+<p>– 插入数据<br>insert into tb_student values (1001, ‘骆昊’, 1, ‘1980-11-28’, ‘’);<br>insert into tb_student (stuid, stuname, birth) values (1002, ‘罗小号’, ‘1990-12-3’);<br>insert into tb_student (stuid, stuname, birth)<br>values<br>(1003, ‘王大锤’, ‘1992-2-2’),<br>(1004, ‘白元芳’, ‘1995-5-5’),<br>(1005, ‘狄仁杰’, ‘1987-7-6’);</p>
+<p>Duplicate Entry - 重复录入<br>Column count doesn’t match value count - 列和值不匹配</p>
+<p>– 删除记录<br>delete from tb_student where stuid=1002;</p>
+<p>– 更新记录<br>update tb_student set stuname=’白芳’, sex=0, addr=’湖南长沙’ where stuid=1004;</p>
+<p>tb_college<br>学院编号 名称     院长名字 网址<br>colid   colname master    website<br>int        varchar    varchar    varchar<br>        not null<br>primary key</p>
+<p>create table tb_college<br>(<br>colid int auto_increment,<br>colname varchar(20) not null,<br>master varchar(15) default ‘’,<br>website varchar(1023) default ‘’,<br>primary key (colid)<br>);    </p>
+<p>insert into tb_college (colname, master) values<br>(‘计算机学院’, ‘左冷禅’),<br>(‘外国语学院’, ‘岳不群’),<br>(‘经济管理学院’, ‘任我行’);</p>
+<p>外键 - foreign key - 外来的主键（在其他表是主键）<br>多对一关系需要在多的一方添加外键列并建立参照完整性</p>
+<p>alter table tb_student add column colid int;</p>
+<p>alter table tb_student add constraint fk_student_colid foreign key (colid) references tb_college (colid);</p>
+<p>Cannot add or update a child row: a foreign key constraint fails - 违反外键约束</p>
+<p>学生选课系统：<br>学院 —&gt; 学生<br>学院 —&gt; 老师<br>老师 —&gt; 课程<br>学生 —&gt; 课程<br>选课记录表（成绩表）将学生跟课程多对多关系转成两个多对一关系的中间表</p>
+	
 	</div>
 	
-	<div id="current-post-cover" data-scr="/img/bg/zard015.jpg"></div>
+	<div id="current-post-cover" data-scr="https://img-zard.oss-cn-chengdu.aliyuncs.com/18.jpg"></div>
 
 	<!-- relate post, comment...-->
 	<div class="investment-container">
@@ -350,8 +384,12 @@
 	<span>
 		<a href="javascript: window.scrollTo(0, 0);">返回顶部</a>
 		
+			<a href="/2019/07/23/测试02/" title="测试2" rel="prev">
+				&laquo;上一篇
+			</a>
 		
-			<a href="/2019/07/23/测试04/" title="测试用例" rel="next">
+		
+			<a href="/2019/07/21/测试05/" title="ceshi" rel="next">
 				下一篇&raquo;
 			</a>
 			
